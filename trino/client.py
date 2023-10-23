@@ -805,8 +805,8 @@ class TrinoQuery(object):
         rows = self._row_mapper.map(status.rows) if self._row_mapper else status.rows
         self._result = TrinoResult(self, rows)
 
-        # Execute should block until at least one row is received or query is finished or cancelled
-        while not self.finished and not self.cancelled and len(self._result.rows) == 0:
+        # Execute should block until query is finished or cancelled
+        while not self.finished and not self.cancelled:
             self._result.rows += self.fetch()
         return self._result
 
